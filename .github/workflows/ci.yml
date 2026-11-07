@@ -1,0 +1,54 @@
+
+name: Acetlisto CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Code Quality and Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27"
+          cache: true
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Check Go formatting
+        run: |
+          if [ -n "$(gofmt -l .)" ]; then
+            echo "Go files need formatting:"
+            gofmt -l .
+            exit 1
+          fi
+
+      - name: Run Go vet
+        run: go vet ./...
+
+      - name: Run tests with race detection and coverage
+        run: go test -race -coverprofile=coverage.out ./...
+
+      - name: Run Go security scanner
+        run: go run github.com/securego/gosec/v2/cmd/gosec@v2.30.0 ./...
+
+      - name: Check Go vulnerabilities
+        uses: golang/govulncheck-action@v1
+        with:
+          go-version-input: "1.27"
+
+      - name: Build Docker image
+        run: docker build -t acetlisto:ci .
