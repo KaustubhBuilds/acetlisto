@@ -1,4 +1,4 @@
-# Acetlisto — Go REST API & DevSecOps
+# Acetlisto - Go REST API & DevSecOps
 
 [![CI](https://github.com/KaustubhBuilds/acetlisto/actions/workflows/ci.yml/badge.svg)](https://github.com/KaustubhBuilds/acetlisto/actions/workflows/ci.yml)
 ![Go](https://img.shields.io/badge/Go-1.27-00ADD8?logo=go)
@@ -244,7 +244,7 @@ Acetlisto uses a multi-stage Docker build to separate compilation from runtime e
 
 ### Runtime stage
 
-- Uses `gcr.io/distroless/static-debian13:nonroot`.
+- Uses `gcr.io/distroless/static-debian11`.
 - Copies only the compiled application binary.
 - Runs as `nonroot:nonroot`.
 - Exposes port `8080`.
@@ -254,7 +254,7 @@ Acetlisto uses a multi-stage Docker build to separate compilation from runtime e
 | Control | Implementation |
 |---|---|
 | Multi-stage build | Build tooling excluded from runtime image |
-| Minimal runtime | Distroless Debian 13 |
+| Minimal runtime | Distroless Debian 11 |
 | Non-root execution | `USER nonroot:nonroot` |
 | Static binary | `CGO_ENABLED=0` |
 | Dependency analysis | Govulncheck |
@@ -327,7 +327,7 @@ The following checks were successfully executed during portfolio preparation:
 
 ### Container runtime verification
 
-The updated Debian 13 Distroless image was tested by running the actual container and sending HTTP requests.
+The Debian 11 Distroless image was tested by running the actual container and sending HTTP requests.
 
 | Test | Observed result |
 |---|---|
@@ -338,7 +338,7 @@ The updated Debian 13 Distroless image was tested by running the actual containe
 | Delete item | `200 OK` |
 | Retrieve deleted item | `404 Not Found` |
 
-This verifies that the application builds, starts, and performs its CRUD operations inside the updated container image.
+This verifies that the application builds, starts, and performs its CRUD operations inside the container image.
 
 ---
 
@@ -447,9 +447,9 @@ My portfolio work includes:
 - Maintaining the personal GitHub repository and its Go module configuration.
 - Maintaining an independent GitHub Actions validation workflow.
 - Configuring optional Google Cloud Trace initialization for local execution.
-- Updating and validating the multi-stage Distroless Docker image.
+- Maintaining and validating the multi-stage Distroless Docker image.
 - Running local quality, security, and vulnerability checks.
-- Verifying the complete CRUD lifecycle inside the updated Docker container.
+- Verifying the complete CRUD lifecycle inside the Docker container.
 - Documenting architecture, implementation decisions, and technical limitations.
 
 The original application was developed collaboratively. The points above describe my portfolio maintenance and verification work, not sole authorship of the university team's implementation.
@@ -519,7 +519,7 @@ go run golang.org/x/vuln/cmd/govulncheck@latest ./...
 
 **Institution:** Hochschule Heilbronn
 
-**Project:** Acetlisto — Shopping List REST API
+**Project:** Acetlisto - Shopping List REST API
 
 **Repository:** [KaustubhBuilds/acetlisto](https://github.com/KaustubhBuilds/acetlisto)
 
